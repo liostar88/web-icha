@@ -181,7 +181,7 @@ setInterval(()=>{
   h.className="heart";
   h.innerHTML="💖";
   h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(Math.random()*3+2)+"s";
+  h.style.fontSize = (Math.random()*30 + 20) + "px";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),5000);
 },300);
