@@ -7,23 +7,36 @@
 <style>
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(-45deg, #ff9a9e, #ff4d6d, #ff758c, #ff7eb3);
-  background-size: 400% 400%;
-  animation: gradientBG 10s ease infinite;
+  margin: 0;
   text-align: center;
-  padding: 20px;
   color: white;
   overflow: hidden;
+  animation: fadeInBody 2s;
 }
 
-@keyframes gradientBG {
-  0% {background-position: 0%}
-  50% {background-position: 100%}
-  100% {background-position: 0%}
+@keyframes fadeInBody {
+  from {opacity:0;}
+  to {opacity:1;}
 }
 
-h1 {
-  text-shadow: 0 0 15px rgba(255,255,255,0.9);
+/* BACKGROUND BLUR */
+.bg-blur {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(25px) brightness(0.5);
+  z-index: -2;
+  transition: 1s;
+}
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.7));
+  z-index: -1;
 }
 
 /* WELCOME */
@@ -41,34 +54,34 @@ h1 {
 
 /* FOTO */
 .gallery {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
+  position: relative;
+  width: 230px;
+  height: 230px;
+  margin: 20px auto;
 }
 
 .gallery img {
-  width: 180px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 20px;
-  box-shadow: 0 0 20px pink;
-  animation: fadeIn 2s;
-  transition: 0.3s;
+  box-shadow: 0 0 25px pink;
+  opacity: 0;
+  transition: 1s;
 }
 
-.gallery img:hover {
-  transform: scale(1.1);
+.gallery img.active {
+  opacity: 1;
+  transform: scale(1.08);
 }
 
-@keyframes fadeIn {
-  from {opacity: 0; transform: scale(0.8);}
-  to {opacity: 1; transform: scale(1);}
-}
-
-/* SLIDE */
+/* TEXT */
 .slide {
   display: none;
   font-size: 20px;
+  padding: 0 10px;
+  text-shadow: 0 0 15px rgba(0,0,0,0.7);
   animation: fadeScale 0.8s;
 }
 
@@ -104,27 +117,25 @@ button {
   to { transform: translateY(110vh); }
 }
 
-/* CONFETTI */
-.confetti {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  background: white;
-  top: -10px;
-  animation: fall linear infinite;
-}
-
 /* ENDING */
 #ending {
   display: none;
-  font-size: 28px;
+  font-size: 30px;
   margin-top: 30px;
   animation: fadeIn 3s;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 </style>
 </head>
 
 <body>
+
+<div class="bg-blur" id="bgBlur"></div>
+<div class="overlay"></div>
 
 <div id="welcome">
   <h2>Klik dulu ya sayang 💖</h2>
@@ -135,8 +146,9 @@ button {
 
 <!-- FOTO -->
 <div class="gallery">
-  <img src="foto1.jpg">
+  <img src="foto1.jpg" class="active">
   <img src="foto2.jpg">
+  <img src="foto3.jpg">
 </div>
 
 <!-- MUSIK -->
@@ -216,6 +228,20 @@ function prevSlide() {
 
 setInterval(nextSlide, 5000);
 
+/* FOTO SLIDE + BG */
+let photos = document.querySelectorAll(".gallery img");
+let pIndex = 0;
+let bg = document.getElementById("bgBlur");
+
+setInterval(()=>{
+  photos.forEach(p => p.classList.remove("active"));
+  pIndex = (pIndex + 1) % photos.length;
+  photos[pIndex].classList.add("active");
+  bg.style.backgroundImage = `url('${photos[pIndex].src}')`;
+}, 3000);
+
+bg.style.backgroundImage = `url('${photos[0].src}')`;
+
 /* LOVE */
 setInterval(()=>{
   let h=document.createElement("div");
@@ -226,16 +252,6 @@ setInterval(()=>{
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),5000);
 },300);
-
-/* CONFETTI */
-setInterval(()=>{
-  let c=document.createElement("div");
-  c.className="confetti";
-  c.style.left=Math.random()*100+"vw";
-  c.style.animationDuration=(Math.random()*3+2)+"s";
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(),5000);
-},150);
 </script>
 
 </body>
