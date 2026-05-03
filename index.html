@@ -12,31 +12,12 @@ body {
   color: white;
   overflow: hidden;
   animation: fadeInBody 2s;
+  background: linear-gradient(135deg, #ff6f91, #ff4d6d);
 }
 
 @keyframes fadeInBody {
   from {opacity:0;}
   to {opacity:1;}
-}
-
-/* BACKGROUND BLUR */
-.bg-blur {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  filter: blur(25px) brightness(0.5);
-  z-index: -2;
-  transition: 1s;
-}
-
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.7));
-  z-index: -1;
 }
 
 /* WELCOME */
@@ -110,17 +91,12 @@ button {
 
 <body>
 
-<div class="bg-blur" id="bgBlur"></div>
-<div class="overlay"></div>
-
 <div id="welcome">
   <h2>Klik dulu ya sayang 💖</h2>
   <button onclick="startAll()">Masuk</button>
 </div>
 
 <h1>🎂 Happy Birthday Sayangku 💖</h1>
-
-
 
 <!-- MUSIK -->
 <iframe id="music" width="1" height="1" src="" allow="autoplay"></iframe>
@@ -198,20 +174,6 @@ function prevSlide() {
 }
 
 setInterval(nextSlide, 5000);
-
-/* FOTO SLIDE + BG */
-let photos = document.querySelectorAll(".gallery img");
-let pIndex = 0;
-let bg = document.getElementById("bgBlur");
-
-setInterval(()=>{
-  photos.forEach(p => p.classList.remove("active"));
-  pIndex = (pIndex + 1) % photos.length;
-  photos[pIndex].classList.add("active");
-  bg.style.backgroundImage = `url('${photos[pIndex].src}')`;
-}, 3000);
-
-bg.style.backgroundImage = `url('${photos[0].src}')`;
 
 /* LOVE */
 setInterval(()=>{
