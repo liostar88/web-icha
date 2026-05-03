@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -54,8 +55,8 @@ body {
 /* BUTTON */
 button {
   margin: 15px;
-  padding: 18px 35px; /* lebih besar */
-  font-size: 20px;   /* teks lebih gede */
+  padding: 18px 35px;
+  font-size: 20px;
   border: none;
   background: #ff1744;
   color: white;
@@ -69,18 +70,26 @@ button:hover {
   transform: scale(1.1);
   background: #ff2e63;
 }
-}
 
 /* LOVE */
 .heart {
   position: fixed;
-  top: -10px;
-  font-size: 20px;
-  animation: fall linear infinite;
+  top: -20px;
+  pointer-events: none;
+  opacity: 0.9;
+  animation-name: fall;
+  animation-timing-function: linear;
 }
 
 @keyframes fall {
-  to { transform: translateY(110vh); }
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) translateX(50px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 /* ENDING */
@@ -184,15 +193,20 @@ function prevSlide() {
 
 setInterval(nextSlide, 5000);
 
-/* LOVE */
+/* LOVE ANIMATION */
 setInterval(()=>{
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize = (Math.random()*30 + 20) + "px";
+  let h = document.createElement("div");
+  h.className = "heart";
+
+  let emojis = ["💖","💗","💓","💕","❤️"];
+  h.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+
+  h.style.left = Math.random()*100 + "vw";
+  h.style.fontSize = (Math.random()*25 + 15) + "px";
+  h.style.animationDuration = (Math.random()*3 + 3) + "s";
+
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),5000);
+  setTimeout(()=>h.remove(),6000);
 },300);
 </script>
 
